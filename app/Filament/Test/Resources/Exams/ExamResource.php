@@ -47,8 +47,8 @@ class ExamResource extends Resource
                                     ->where('exact_time', true)
                                     ->where('started_at', '>=', $now)
                                     ->whereRaw(
-                                        'DATE_ADD(started_at, INTERVAL duration MINUTE) >= ?',
-                                        [$now]
+                                        "datetime(started_at, '+' || duration || ' minutes') >= ?",
+                                        [$now->toDateTimeString()]
                                     ))
                             ->orWhere(fn (Builder $query) => $query
                                     ->whereNotNull('expired_at')
